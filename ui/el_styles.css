@@ -1,0 +1,83 @@
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+}
+
+.container {
+    display: flex;
+    height: 400px;
+}
+
+.sidebar {
+    flex: 0 0 250px;
+    background-color: #fae3f1;
+    padding: 0;
+    height: 800px;
+}
+
+.main-content {
+    flex: 1;
+    padding: 30px 50px;
+}
+
+#chat-header {
+    background-color: #d992b6;
+    max-width: 782px;
+    color: #fff;
+    padding: 10px;
+    border-radius: 5px;
+    text-align: center;
+}
+
+.chat-container {
+    max-width: 800px;
+    border: 1px solid #b5b1b4;
+    border-radius: 5px;
+    overflow: hidden;
+}
+
+.chat-messages {
+    height: 490px;
+    overflow-y: scroll;
+    padding: 10px;
+    background-color: #fffcfc;
+}
+
+#user-message {
+    width: calc(80%);
+    padding: 10px;
+    border: 1px solid #1b1a1b;
+    border-radius: 5px;
+}
+
+#send-btn {
+    padding: 10px 20px;
+    margin-left: 10px;
+    border: none;
+    background-color: #eb8cc6;
+    color: #fff;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+#send-btn:hover {
+    background-color: #66128a;
+}
+
+/* 用户和 AI 消息的样式 */
+.message {
+    margin-bottom: 10px;
+    padding: 10px;
+    border-radius: 5px;
+}
+
+.user {
+    background-color: #d3e8fd;
+}
+
+.ai {
+    background-color: #e7e7e7;
+}
+
+

@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ruankeke</title>
+    <link rel="stylesheet" href="el_styles.css">
+</head>
+
+<body>
+    <div class="container">
+        <div class="sidebar">
+            <!-- 侧边栏内容 -->
+            <!-- <h2>侧边栏</h2> -->
+            <!--  -->
+            <img src="ruankeke.jpg" alt="ruankeke" width="250">
+            <h2 style="margin-top: 0; margin-bottom: 0; text-align: center">ruankeke</h2>
+            <!-- <p>其他的内容</p> -->
+        </div>
+        <div class="main-content">
+            <div id="chat-header">
+                AI 对话
+            </div>
+            <div class="chat-container">
+                <div class="chat-messages" id="chat-messages" style="font-size: 18px;">
+                    <!-- 对话内容将在此动态添加 -->
+                </div>
+                <input type="text" id="user-message" placeholder="输入消息...">
+                <button onclick="sendMessage()" id="send-btn">发送</button>
+            </div>
+            <hr>
+            <div id="responseData" style="font-size: 18px;">
+                <!-- 这里将会更新 AI 的回复 -->
+                <div id="yulu" style="background-color: rgb(247, 203, 227);height: 30%;border-radius: 5px;">
+                    <!-- 这里将会更新每日内容 -->
+                    <p id="dailyContent"></p>
+                    <!-- <p id="quote"></p> -->
+                    <h3 id="quote"></h3>
+                    <!-- <button onclick="getRandomQuote()" style="float: inline-end;">刷新</button> -->
+                </div>
+                <button onclick="getRandomQuote()" style="float: right;">刷新</button>
+
+                <script>
+                    // 更新每日内容的函数
+                    function updateDailyContent() {
+                        // 这里可以是从服务器获取每日推送内容的异步请求
+                        // 这里简单地模拟一个每日内容
+                        let dailyContent = "today is " + new Date().toDateString();
+
+                        // 将内容更新到页面上
+                        document.getElementById('dailyContent').innerHTML = dailyContent;
+                    }
+
+                    // 初次加载页面时更新内容
+                    updateDailyContent();
+
+                    // 每隔一天（24小时）更新一次内容
+                    setInterval(updateDailyContent, 24 * 60 * 60 * 1000);
+
+
+                    <!-- <button onclick="getRandomQuote()" style="float: right;" >刷新</button> -->
+
+
+                    // 定义一些语录
+                    const quotes = [
+
+                        "大多数优秀的程序员从事编程工作，不是因为期望获得报酬或得到公众的称赞，而是因为编程是件有趣的事儿。 —— 林纳斯·托瓦兹（Linus Torvalds）",
+                        "一名优秀的程序员，在穿越单行道时也会确认双向的来车情况。 —— 道格拉斯·林德（Doug Linder）",
+                        "这是我能想到的，唯一可以让我既当工程师又做艺术家的工作。它要求具备极其缜密的技术思维，因为你必须要完成精确的思考，这点我很喜欢。另一方面，它又鼓励你肆意挥洒自己的创意，只有你想不到没有你做不到的。 —— 安迪·赫兹菲尔德（Andy Hertzfeld）",
+                        "函数应该做一件事。做好这件事。只能做这一件事。 —— 罗伯特·C.马丁（Robert C.Martin）",
+                        "理论上，理论和实践没有区别。但实践上，是有区别的。 —— 简·范德斯奈普特（Jan L. A. van de Snepscheut）",
+                        "我坚信，自我教育是唯一的教育形式。 —— 艾萨克·阿西莫夫（Isaac Asimov）",
+                        "只有两种编程语言：大家抱怨的和没人用的。 —— 本贾尼·斯特劳斯特鲁普（Bjarne Stroustrup）",
+                        "视代码如诗词，勿要做无所谓的堆砌。 —— 伊利亚·多尔曼（Ilya Dorman）",
+                        "代码跑起来我们再聊。 —— 沃德·坎宁汉（Ward Cunningham）",
+                        "除了计算机编程外，我想不出还有其他让我感兴趣的工作。我可以无中生有地创造出精美的范式和结构，在此过程中也解决了无数的小谜团。 —— 皮特·范德林登（Peter Van Der Linden）",
+                        "代码胜于雄辩。 —— 林纳斯·托瓦兹（Linus Torvalds）",
+                        "每名程序员都是作家。 —— 塞坎·雷勒克（Sercan Leylek）",
+                        "我拒绝做计算机能够胜任的事情。 —— 奥林·施福尔（Olin Shivers）",
+                        "神话和传说的魔力在我们这一代成真。只要在键盘上敲下正确的咒语，显示屏就像是活了过来，里面都是以前不可能存在或发生的事情。 —— 费德里克·布鲁克斯（Frederick Brooks）",
+                        "算法，就像一张菜谱。 —— 瓦辛·拉提夫（Waseem Latif）",
+                        "写代码时，每次都要告诉自己：最后负责维护代码的，会是一个知道你住在哪的变态暴力狂。 —— 约翰·伍德（John Woods）",
+                        "请注意，在‘现实世界’里，演讲者的诉求永远是听众不要挑战其默认的假设条件。 —— 艾兹格·W·迪科斯彻（Edsger W. Dijkstra）",
+                        "没有优秀的团队，无法打造出优秀的软件。大部分的软件团队看上去就像内部不和谐的家庭。 —— 吉姆·麦卡锡（Jim McCarthy）",
+                        "最优秀的程序员比一般优秀的程序员，不只是好一丁半点。不论用什么标准来衡量，他们都比后者优秀太多：认知创新能力、工作效率、设计原创性或问题解决能力都是如此。 —— 兰道尔·斯特若斯（Randall E. Stross）",
+                        "计算机是没有用的，它们只能给出答案。 —— 巴勃罗·毕加索",
+                        "数据！数据！数据！没有黏土我无法造出砖来！ —— 夏洛克·福尔摩斯",
+                        "软件工程的目的是控制复杂度，而不是制造复杂度。 —— 帕梅拉·扎维（Pamela Zave）",
+                        "All problems in computer science can be solved by another level of indirection —— David Wheeler（剑桥大学计算机科学教授）",
+                        "编程就像性，一个错误必须终身承受 —— Michael Sinz（微软首席架构师）",
+                        "简单是可靠的前提 —— Edsger Dijkstra（荷兰计算机科学家）",
+                        "读代码比写代码困难 —— Joel Spolsky（StackOverflow合伙创始人）",
+                        "不要重复！在一个系统中，每条知识必须唯一、清晰、权威的表达 —— Andy Hunt和Dave Thomas（《程序员修炼之道》作者）",
+                        "计算机科学两件最难的事情：缓存失效，命名和差一错误 —— Leon Bambrick",
+                        "系统测试阶段发现和修复bug需要付出的努力是开发者自己解决的3倍。而上线后付出的努力又是系统测试阶段的10倍，因此，开发者一定要自己做单元测试 —— Larry Bernstein",
+                        "好的代码有自说明性，当你想添加一条注释时，问下自己‘我怎么能改进代码从而省略这个注释？’ —— Steve McConnell（《代码大全》作者）",
+                        "任何傻瓜都可以将复杂性简化，但将复杂性简化为简洁，需要真正的天才。 —— 查尔斯·安东尼·理查德·霍亚尔（C.A.R. Hoare）",
+                        "计算机科学中的所有问题都可以通过增加一个间接层来解决。 —— 大卫·惠勒（David Wheeler）",
+                        "编程是艺术，是科学，也是手艺。 —— 唐纳德·克努特（Donald Knuth）",
+                        "软件过于复杂，以至于没有人能了解它作为一个整体，但仍然足够简单，以至于可以找到人去实现它。 —— 道格拉斯·霍夫斯塔特（Douglas Hofstadter）",
+                        "编程的本质在于控制复杂性。 —— 艾德加·迪科斯特拉（Edsger Dijkstra）",
+                        "优秀的代码是编写给人类看的，附带让计算机也能读懂。 —— 马丁·福勒（Martin Fowler）",
+                        "在计算机科学中，'垃圾进，垃圾出'是不可挑战的真理。 —— 格蕾丝·霍珀（Grace Hopper）",
+                        "编程是唯一一种你不必等待成长就能参与的创造性活动。 —— 艾伦·凯（Alan Kay）",
+                        "计算机科学，就像大多数科学一样，是思考的科学。 —— 彼得·德宾（Peter Naur）",
+                        "编程不是关于代码，它是关于思考的。 —— 埃里克·雷蒙德（Eric S. Raymond）",
+                        "在计算机科学中，唯一有价值的东西是想法。 —— 理查德·斯托曼（Richard Stallman）",
+                        "编程是一种技能，就像骑自行车一样，你越做越好。 —— 史蒂夫·沃兹尼亚克（Steve Wozniak）",
+                        "编程是关于解决问题的，而不是关于编写代码的。 —— 托尼·霍尔（Tony Hoare）",
+                        "编程是唯一一种你不需要许可就能实践的艺术形式。 —— 约翰·卡马克（John Carmack）",
+                        "软件就像性，免费的时候最好。 —— 林纳斯·托瓦兹（Linus Torvalds）",
+                        "编程是关于创造世界的艺术，你可以按照自己的意愿来塑造它。 —— 基思·布兰特（Keith Brautigan）",
+                        "在计算机科学中，唯一不变的就是变化。 —— 玛丽·肖普（Mary Shaw）",
+                        "编程是一种创造性的表达，就像写作或绘画一样。 —— 肯·汤森（Ken Thompson）",
+                        "编程不仅仅是关于技术，它还关于人，关于我们如何思考和解决问题。 —— 罗伯特·C.马丁（Robert C. Martin）",
+                        "计算机科学教育不是为了教会学生如何编程，而是为了教会他们如何思考。 —— 劳伦·斯普罗尔（Lauren Spool）"
+
+                    ];
+
+                    // 获取随机语录并更新页面
+                    function getRandomQuote() {
+                        // 生成一个随机索引
+                        const randomIndex = Math.floor(Math.random() * quotes.length);
+                        // 获取随机语录
+                        const randomQuote = quotes[randomIndex];
+                        // 更新页面上的语录
+                        document.getElementById('quote').innerText = randomQuote;
+                    }
+
+
+
+
+
+
+
+
+                    // 发送用户消息
+                    function sendMessage() {
+                        var userInput = document.getElementById('user-message').value;
+                        if (userInput.trim() === '') return;
+                        //
+
+                        //sendData(userInput);
+
+                        // document.getElementsByClassName('chat-messages').addEventListener('send-btn', function (event) {
+                        //     event.preventDefault(); // 防止表单默认提交行为
+
+                        //     var inputText = document.getElementById('user-message').value; // 获取用户输入的文字
+                        //     sendData(inputText); // 发送数据到服务器
+                        // });
+                        //var aiResponse='';
+                        sendData(userInput);
+                        function sendData(text) {
+                            fetch('http://47.122.7.243:5000/', {
+                                method: 'POST',
+                                headers: {
+                                    'Content-Type': 'application/json',
+                                },
+                                body: JSON.stringify({ 'question': text })
+                            })
+                                .then(response => {
+                                    if (!response.ok) {
+                                        throw new Error(`HTTP error! status: ${response.status}`);
+                                    }
+                                    console.log(response);
+                                    return response.text();
+                                })
+                                .then(data => {
+                                    // 在页面上展示服务器返回的数据
+                                    //alert(data)
+                                    // var nima = data;
+                                    // console.log(nima);
+                                    aiResponse = data;
+                                    //document.getElementById('responseData').innerText = data;
+                                    addMessage(userInput, 'user');
+                                    addMessage(aiResponse, 'bot');
+                                })
+                                .catch(error => {
+                                    //document.getElementById('responseData').innerText = error;
+                                    console.log(error);
+                                });
+                        }
+
+
+
+                        function addMessage(message, sender) {
+                            var chatMessages = document.getElementById('chat-messages');
+                            var messageElement = document.createElement('div');
+                            messageElement.classList.add('message', sender);
+
+                            if (sender === 'user') {
+                                messageElement.innerHTML = `
+<img src="ganyu.jpg" width="60" class="avatar" alt="User Avatar">
+<div class="text">${message}</div>
+
+`;
+                            } else if (sender === 'bot') {
+                                messageElement.innerHTML = `
+<img src="keqing.jpg" width="60" class="avatar" alt="Bot Avatar">
+<div class="text">${message}</div>
+`;
+                            }
+
+                            chatMessages.appendChild(messageElement);
+                            // 滚动到底部
+                            chatMessages.scrollTop = chatMessages.scrollHeight;
+                        }
+
+                        document.getElementById('user-message').value = ''; // 清空输入框
+                    }
+
+                    // 将消息添加到对话框中
+                    //                 function addMessage(message, sender) {
+                    //                     var chatMessages = document.getElementById('chat-messages');
+                    //                     var messageElement = document.createElement('div');
+                    //                     messageElement.classList.add('message', sender);
+
+                    //                     if (sender === 'user') {
+                    //                         messageElement.innerHTML = `
+                    // <img src="Image_1716818599668.jpg" width="60" class="avatar" alt="User Avatar">
+                    // <div class="text">${message}</div>
+
+                    // `;
+                    //                     } else if (sender === 'bot') {
+                    //                         messageElement.innerHTML = `
+                    // <img src="Image_1716818559646.jpg" width="60" class="avatar" alt="Bot Avatar">
+                    // <div class="text">${message}</div>
+                    // `;
+                    //                     }
+
+                    //                     chatMessages.appendChild(messageElement);
+                    //                     // 滚动到底部
+                    //                     chatMessages.scrollTop = chatMessages.scrollHeight;
+                    //                 }
+
+
+
+                    document
+                        .getElementById("message-input")
+                        .addEventListener("keypress", function (e) {
+                            if (e.key === "Enter") {
+                                e.preventDefault();
+                                sendMessage();
+                            }
+                        });
+                </script>
+            </div>
+        </div>
+
+</body>
+
+</html>
